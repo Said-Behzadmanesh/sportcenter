@@ -71,4 +71,31 @@ public class ProductServiceImpl implements ProductService{
         return productResponseList;
     }
 
+    @Override
+    public List<ProductResponse> searchProductsByBrandTypeAndName(Integer brandId, Integer typeId, String keyword) {
+        log.info("Searching product(s) by brandId: {}, and typeId: {}, and keyword: {}", brandId, typeId, keyword);
+        // call the custom query Method
+        List<Product> productList = productRepository.searchByBrandTypeAndName(brandId, typeId, keyword);
+        // Map
+        List<ProductResponse> productResponseList = productList.stream()
+                .map(this::convertToProductResponse)
+                .collect(Collectors.toList());
+        log.info("Fetched all products");
+
+        return productResponseList;
+    }
+
+    @Override
+    public List<ProductResponse> searchProductsByBrandAndType(Integer brandId, Integer typeId) {
+        log.info("Searching product(s) by brandId: {}, and typeId: {}", brandId, typeId);
+        // call the custom query Method
+        List<Product> productList = productRepository.searchByBrandAndType(brandId, typeId);
+        // Map
+        List<ProductResponse> productResponseList = productList.stream()
+                .map(this::convertToProductResponse)
+                .collect(Collectors.toList());
+        log.info("Fetched all products");
+
+        return productResponseList;
+    }
 }

@@ -38,13 +38,27 @@ public class ProductController {
     public ResponseEntity<Page<ProductResponse>> getProducts(
             @PageableDefault(size = 10)Pageable pageable,
             @RequestParam(name = "keyword", required = false) String keyword,
+            @RequestParam(name = "brandId", required = false) Integer brandId,
+            @RequestParam(name = "typeId", required = false) Integer typeId,
             @RequestParam(name = "sort", defaultValue = "name") String sort,
             @RequestParam(name = "order", defaultValue = "asc") String order){
+
         Page<ProductResponse> productResponsePage = null;
-        if(keyword != null && !keyword.isEmpty()){
-            List<ProductResponse> productResponseList = productService.searchProductsByName(keyword);
+        if(brandId != null && typeId != null && keyword != null && !keyword.isEmpty()) {
+            // search by brand, type and keyword
+            List<ProductResponse> productResponseList = productService.searchProductsByBrandTypeAndName(brandId, typeId, keyword);
             productResponsePage = new PageImpl<>(productResponseList, pageable, productResponseList.size());
-        } else {
+        }
+        else if(brandId != null && typeId != null) {
+            // search by brand, type and keyword
+            List<ProductResponse> productResponseList = productService.searchProductsByBrandAndType(brandId, typeId);
+            productResponsePage = new PageImpl<>(productResponseList, pageable, productResponseList.size());
+        }
+        else if(keyword != null && !keyword.isEmpty()){
+                List<ProductResponse> productResponseList = productService.searchProductsByName(keyword);
+                productResponsePage = new PageImpl<>(productResponseList, pageable, productResponseList.size());
+        }
+        else {
             // If no search criteria, then retrieve based on sorting options
             Sort.Direction direction = "asc".equalsIgnoreCase(order) ? Sort.Direction.ASC : Sort.Direction.DESC;
             Sort sorting = Sort.by(direction, sort);

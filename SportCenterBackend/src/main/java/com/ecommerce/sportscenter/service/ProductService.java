@@ -12,4 +12,7 @@ public interface ProductService {
     Page<ProductResponse> getProducts(Pageable pageable);
     List<ProductResponse> searchProductsByName(String keyword);
 
+    List<ProductResponse> searchProductsByBrandTypeAndName(Integer brandId, Integer typeId, String keyword);
+
+    List<ProductResponse> searchProductsByBrandAndType(Integer brandId, Integer typeId);
 }

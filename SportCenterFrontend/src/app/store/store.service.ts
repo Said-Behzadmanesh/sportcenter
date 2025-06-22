@@ -10,12 +10,31 @@ import { Type } from '../shared/interfaces/type';
 })
 export class StoreService {
 
-  private apiUrl = "http://localhost:8080/api/products";
+  public apiUrl = "http://localhost:8080/api/products";
 
   constructor(private http: HttpClient) { }
 
-  getProducts(): Observable<ProductData> {
-    return this.http.get<ProductData>(this.apiUrl);
+  getProducts(brandId?: number, typeId?: number, url?: string): Observable<ProductData> {
+    // construct the url based on brandId and typeId
+    // let url = `${this.apiUrl}?`;
+
+    // if (brandId && brandId !== 0) {
+    //   url += `brandId=${brandId}&`;
+    // }
+
+    // if (typeId && typeId !== 0) {
+    //   url += `typeId=${typeId}&`;
+    // }
+
+    // if (url.endsWith('&')) {
+    //   url = url.slice(0, -1);
+    // }
+
+    const apiUrl = url || this.apiUrl;
+
+    console.log("url: " + url);
+    // const url = `${this.apiUrl}?brandId=${brandId}&typeId=${typeId}`;
+    return this.http.get<ProductData>(apiUrl);
   }
 
   getBrands() {

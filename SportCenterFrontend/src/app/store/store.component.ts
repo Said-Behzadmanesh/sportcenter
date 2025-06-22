@@ -14,22 +14,49 @@ export class StoreComponent implements OnInit {
   products: Product[] = [];
   brands: Brand[] = [];
   types: Type[] = [];
-  selectedBrand: Brand | null = null;
-  selectedType: Type | null = null;
+  selectedBrand: Brand = { id: 0, name: 'All' };
+  selectedType: Type = { id: 0, name: 'All' };
+  selectedSort = 'asc';
+  search = '';
 
   constructor(private storeService: StoreService) { }
 
   ngOnInit(): void {
     // initializing selected brand and type
-    this.selectedBrand = null;
-    this.selectedType = null;
     this.fetchProducts();
     this.getBrands();
     this.getTypes();
   }
 
-  private fetchProducts() {
-    this.storeService.getProducts()
+  fetchProducts() {
+    // pass the selected brand/type ids
+    const brandId = this.selectedBrand.id;
+    const typeId = this.selectedType.id;
+    let url = `${this.storeService.apiUrl}?`;
+
+    // check the brand and type
+    if (brandId && brandId !== 0) {
+      url += `brandId=${brandId}&`;
+    }
+
+    if (typeId && typeId !== 0) {
+      url += `typeId=${typeId}&`;
+    }
+
+    if (this.selectedSort) {
+      url += `sort=name&order=${this.selectedSort}&`;
+    }
+
+    // search
+    if (this.search) {
+      url += `keyword=${this.search}&`;
+    }
+
+    if (url.endsWith('&')) {
+      url = url.slice(0, -1);
+    }
+
+    this.storeService.getProducts(brandId, typeId, url)
       .subscribe({
         next: (data) => {
           this.products = data.content;
@@ -63,6 +90,19 @@ export class StoreComponent implements OnInit {
   selectType(type: Type) {
     // update the selected type and fetch the products
     this.selectedType = type;
+    this.fetchProducts();
+  }
+
+  onSortChange() {
+    this.fetchProducts();
+  }
+
+  onSearch() {
+    this.fetchProducts();
+  }
+
+  onReset() {
+    this.search = '';
     this.fetchProducts();
   }
 }
