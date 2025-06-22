@@ -9,26 +9,26 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
-@Configuration
-@EnableSpringDataWebSupport
-public class WebConfig implements WebMvcConfigurer {
-
-    @Bean
-    public PageableHandlerMethodArgumentResolver customPageableResolver() {
-
-        PageableHandlerMethodArgumentResolver resolver = new PageableHandlerMethodArgumentResolver(){
-            @Override
-            protected String getPageParameterName(){
-                return super.getPageParameterName();
-            }
-        };
-        // This sets the default page number to 1
-        resolver.setOneIndexedParameters(true);
-        return resolver;
-    }
-
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(customPageableResolver());
-    }
-}
+//@Configuration
+//@EnableSpringDataWebSupport
+//public class WebConfig implements WebMvcConfigurer {
+//
+//    @Bean
+//    public PageableHandlerMethodArgumentResolver customPageableResolver() {
+//
+//        PageableHandlerMethodArgumentResolver resolver = new PageableHandlerMethodArgumentResolver(){
+//            @Override
+//            protected String getPageParameterName(){
+//                return super.getPageParameterName();
+//            }
+//        };
+//        // This sets the default page number to 1
+//        resolver.setOneIndexedParameters(true);
+//        return resolver;
+//    }
+//
+//    @Override
+//    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+//        resolvers.add(customPageableResolver());
+//    }
+//}
