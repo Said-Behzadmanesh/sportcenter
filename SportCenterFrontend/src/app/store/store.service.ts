@@ -4,6 +4,7 @@ import { ProductData } from '../shared/interfaces/productData';
 import { Observable } from 'rxjs';
 import { Brand } from '../shared/interfaces/brand';
 import { Type } from '../shared/interfaces/type';
+import { Product } from '../shared/interfaces/product';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,10 @@ export class StoreService {
     console.log("url: " + url);
     // const url = `${this.apiUrl}?brandId=${brandId}&typeId=${typeId}`;
     return this.http.get<ProductData>(apiUrl);
+  }
+
+  getProduct(id: number) {
+    return this.http.get<Product>(this.apiUrl + "/" + id);
   }
 
   getBrands() {

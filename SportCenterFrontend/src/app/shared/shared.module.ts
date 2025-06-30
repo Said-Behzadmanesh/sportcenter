@@ -4,6 +4,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { PaginationHeaderComponent } from './components/pagination-header/pagination-header.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { FormsModule } from '@angular/forms';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 
 
 
@@ -14,13 +15,15 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
+    CarouselModule.forRoot(),
     PaginationModule.forRoot(),
     FormsModule
   ],
   exports: [
     PaginationModule,
     PaginationHeaderComponent,
-    PaginationComponent
+    PaginationComponent,
+    CarouselModule
   ]
 })
 export class SharedModule { }

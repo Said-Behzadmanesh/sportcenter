@@ -21,3 +21,9 @@
 .navbar-nav .nav-link .fas{
   margin-right: 5px; /* Space between icon and text */
 }
+
+/* style the active link */
+.nav-item.active .nav-link {
+  color: #007bff;
+  font-weight: bold;
+}
