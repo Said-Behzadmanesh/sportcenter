@@ -34,8 +34,13 @@
           </a>
         </li>
         <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="/">
-            <i class="fas fa-shopping-cart"></i> Cart
+          <a class="nav-link" routerLink="/basket">
+            <i class="fas fa-shopping-cart"></i>
+            <ng-container *ngIf="basketService.basketSource$ | async as basket">
+              <span class="cart-badge" *ngIf="basket.items.length > 0">{{
+                getItemCount(basket.items)
+              }}</span>
+            </ng-container>
           </a>
         </li>
         <li class="nav-item" routerLinkActive="active">

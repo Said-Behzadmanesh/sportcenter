@@ -15,6 +15,8 @@
 
 .navbar-nav .nav-link{
   color: #333; /* Text color */
+  position: relative;
+  display: inline-block;
 }
 
 /* Style Font Awesome icons */
@@ -26,4 +28,22 @@
 .nav-item.active .nav-link {
   color: #007bff;
   font-weight: bold;
+}
+
+.cart-badge {
+  background-color: rgb(210,74,74);
+  color: white;
+  border-radius: 50%;
+  padding: 4px 8px;
+  font-size: 12px;
+  position: absolute;
+  top: -2px;
+  right: 2px;
+  transform: translateX(50%);
+  z-index: 1;
+}
+
+.navbar-nav .nav-link .fa-shopping-cart {
+  margin-top: 5px;
+  margin-bottom: auto;
 }
