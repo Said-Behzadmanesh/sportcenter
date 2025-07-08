@@ -1,0 +1,70 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="text-center">Login</h2>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="username" class="form-label">UserName</label>
+              <input
+                type="text"
+                class="form-control"
+                id="username"
+                placeholder="Enter your username"
+                formControlName="username"
+                autocomplete="off"
+              />
+              <div
+                *ngIf="
+                  loginForm.get('username')?.hasError('required') &&
+                  loginForm.get('username')?.touched
+                "
+                class="text-danger"
+              >
+                Username is required
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="password"
+                placeholder="Enter your password"
+                formControlName="password"
+              />
+              <div
+                *ngIf="
+                  loginForm.get('password')?.hasError('required') &&
+                  loginForm.get('password')?.touched
+                "
+                class="text-danger"
+              >
+                Password is required
+              </div>
+            </div>
+            <div class="mb-3 form-check">
+              <input
+                type="checkbox"
+                class="form-check-input"
+                id="rememberMe"
+                formControlName="rememberMe"
+              />
+              <label class="form-check-label" for="rememberMe"
+                >Remember me</label
+              >
+            </div>
+            <div class="d-grid gap-2">
+              <button class="btn btn-primary" [disabled]="loginForm.invalid">
+                Login
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

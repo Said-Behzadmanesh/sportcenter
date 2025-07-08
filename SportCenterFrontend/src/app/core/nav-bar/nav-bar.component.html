@@ -36,18 +36,37 @@
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link" routerLink="/basket">
             <i class="fas fa-shopping-cart"></i>
-            <ng-container *ngIf="basketService.basketSource$ | async as basket">
+            <ng-container *ngIf="basketSource$ | async as basket">
               <span class="cart-badge" *ngIf="basket.items.length > 0">{{
                 getItemCount(basket.items)
               }}</span>
             </ng-container>
           </a>
         </li>
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="/">
-            <i class="fas fa-sign-out-alt"></i> Logout
-          </a>
-        </li>
+        <ng-container *ngIf="(currentUser$ | async) === null">
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/account/login">
+              <i class="fa fa-sign-in"></i> Signin
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/account/register">
+              <i class="fa fa-user"></i> Sign Up
+            </a>
+          </li>
+        </ng-container>
+        <ng-container *ngIf="currentUser$ | async as user">
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/account/profile">
+              Welcome, {{ user.username }}
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" (click)="logout()">
+              <i class="fa fa-sign-out"></i> Logout
+            </a>
+          </li>
+        </ng-container>
       </ul>
     </div>
   </div>

@@ -10,6 +10,7 @@ import { HomeModule } from './home/home.module';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { JwtInterceptor } from './core/interceptors/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -24,17 +25,23 @@ import { NgxSpinnerModule } from 'ngx-spinner';
     NgxSpinnerModule.forRoot({ type: 'square-jelly-box' })
   ],
   providers: [
+    // This line tells HttpClient to use the interceptors provided below
     provideHttpClient(withInterceptorsFromDi()), // Item 1
     {                                            // Item 2
       provide: HTTP_INTERCEPTORS,
-      useClass: ErrorInterceptor,
+      useClass: loadingInterceptor,
       multi: true
     },
     {                                            // Item 3
       provide: HTTP_INTERCEPTORS,
-      useClass: loadingInterceptor,
+      useClass: JwtInterceptor,
       multi: true
-    }
+    },
+    {                                            // Item 3
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true
+    },
   ],
   bootstrap: [AppComponent]
 })
