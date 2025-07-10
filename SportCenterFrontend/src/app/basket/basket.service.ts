@@ -9,10 +9,15 @@ import { Product } from '../shared/interfaces/product';
   providedIn: 'root'
 })
 export class BasketService {
+
   apiUrl = 'http://localhost:8080/api/baskets';
   private basketSource = new BehaviorSubject<Basket | null>(null);
   basketSource$ = this.basketSource.asObservable();
-  private basketTotalSource = new BehaviorSubject<BasketTotals | null>(null);
+  private basketTotalSource = new BehaviorSubject<BasketTotals | null>({
+    subtotal: 0,
+    shipping: 0,
+    total: 0
+  });
   basketTotalSource$ = this.basketTotalSource.asObservable();
 
   constructor(private http: HttpClient) {
@@ -154,8 +159,23 @@ export class BasketService {
       const shipping = 0;
       const subTotal = basket.items.reduce((a, b) => (b.price * b.quantity) + a, 0);
       const total = subTotal + shipping;
-      this.basketTotalSource.next({ shipping, subTotal, total });
+      this.basketTotalSource.next({ shipping, subtotal: subTotal, total });
     }
+  }
+
+  updateShippingPrice(shippingPrice: number) {
+    const updateBasketTotal = this.basketTotalSource.value;
+    if (updateBasketTotal) {
+      updateBasketTotal.shipping = shippingPrice;
+      updateBasketTotal.total = updateBasketTotal.subtotal + updateBasketTotal.shipping;
+      this.basketTotalSource.next(updateBasketTotal);
+    }
+  }
+
+  clearBasket() {
+    this.basketSource.next(null);
+    this.basketTotalSource.next(null);
+    localStorage.removeItem('basket_id');
   }
 }
 

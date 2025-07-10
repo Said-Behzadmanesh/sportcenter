@@ -7,7 +7,6 @@ import com.ecommerce.sportscenter.model.BasketResponse;
 import com.ecommerce.sportscenter.service.BasketService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,7 +28,6 @@ public class BasketController {
     }
 
     @GetMapping("/{basketId}")
-    @PreAuthorize("isAuthenticated()")
     public BasketResponse getBasketById(@PathVariable String basketId){
         return basketService.getBasketById(basketId);
     }

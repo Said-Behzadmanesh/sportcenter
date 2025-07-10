@@ -3,6 +3,8 @@ import { Product } from '../../shared/interfaces/product';
 import { StoreService } from '../store.service';
 import { ActivatedRoute } from '@angular/router';
 import { BreadcrumbService } from 'xng-breadcrumb';
+import { BasketService } from '../../basket/basket.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-details',
@@ -13,9 +15,12 @@ export class ProductDetailsComponent implements OnInit {
   product?: Product;
   quantity = 1;
 
-  constructor(private storeService: StoreService,
+  constructor(
+    private storeService: StoreService,
     private activateRoute: ActivatedRoute,
-    private breadcrumb: BreadcrumbService) { }
+    private breadcrumb: BreadcrumbService,
+    private basketService: BasketService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.loadProduct();
@@ -51,6 +56,13 @@ export class ProductDetailsComponent implements OnInit {
   decrementQuantity() {
     if (this.quantity > 1) {
       this.quantity--;
+    }
+  }
+
+  addToCart() {
+    if (this.product) {
+      this.basketService.addItemToBasket(this.product, this.quantity);
+      this.toastr.success('Item added to cart');
     }
   }
 }

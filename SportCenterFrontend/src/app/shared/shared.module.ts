@@ -6,6 +6,7 @@ import { PaginationComponent } from './components/pagination/pagination.componen
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
+import { MatInputModule } from '@angular/material/input';
 
 
 
@@ -20,7 +21,8 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
     CarouselModule.forRoot(),
     PaginationModule.forRoot(),
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatInputModule
   ],
   exports: [
     PaginationModule,
@@ -29,7 +31,8 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
     CarouselModule,
     OrderSummaryComponent,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    MatInputModule
   ]
 })
 export class SharedModule { }

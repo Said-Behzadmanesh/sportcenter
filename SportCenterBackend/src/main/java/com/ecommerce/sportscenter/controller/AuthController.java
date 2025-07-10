@@ -46,4 +46,25 @@ public class AuthController {
             throw new BadCredentialsException("Invalid username or password");
         }
     }
+
+    @GetMapping("/user")
+    public ResponseEntity<UserDetails> getUserDetails(@RequestHeader("Authorization") String tokenHeader){
+        String token = extractTokenFromHeader(tokenHeader);
+        if(token != null) {
+            String username = helper.getUserNameFromToken(token);
+            UserDetails userDetails = userService.loadUserByUsername(username);
+
+            return new ResponseEntity<>(userDetails, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    private String extractTokenFromHeader(String tokenHeader) {
+        if(tokenHeader != null && tokenHeader.startsWith("Bearer ")) {
+            return tokenHeader.substring(7); // remove "Bearer " prefix
+        }
+
+        return null;
+    }
 }
